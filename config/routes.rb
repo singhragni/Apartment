@@ -1,4 +1,16 @@
-Rails.application.routes.draw do
-  resources :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+class SubdomainConstraint   
+  
+	def self.matches?(request)     
+	    request.subdomain.present? && request.subdomain != 'www'   
+	end 
+
+end 
+
+Rails.application.routes.draw do  
+
+  constraints SubdomainConstraint do     
+    resources :users   
+  end   
+  resources :enterprises   
+  root 'enterprises#index'   
 end
